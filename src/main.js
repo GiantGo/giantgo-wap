@@ -7,6 +7,7 @@ import store from './store'
 import App from './App.vue'
 
 import './errorLog' // error log
+import './icons' // icon
 
 Vue.use(MintUI)
 
