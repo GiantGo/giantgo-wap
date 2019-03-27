@@ -1,23 +1,15 @@
 <template>
   <section class="app-main">
     <mt-header title="fixed top"></mt-header>
-    <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="tab1">
-        <transition name="fade-transform" mode="out-in">
-          <router-view :key="key"/>
-        </transition>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="tab2">
-        <mt-cell v-for="n in 4" :title="'测试 ' + n" :key="n"/>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="tab3">
-        <mt-cell v-for="n in 6" :title="'选项 ' + n" :key="n"/>
-      </mt-tab-container-item>
-    </mt-tab-container>
+    <transition name="fade-transform" mode="out-in">
+      <keep-alive>
+        <router-view :key="key"/>
+      </keep-alive>
+    </transition>
     <mt-tabbar v-model="selected">
       <mt-tab-item id="tab1">
         <svg-icon slot="icon" icon-class="shopping" class-name="card-panel-icon"/>
-        <a href="/signIn">tab1</a>
+        <router-link to="/dashboard">tab1</router-link>
       </mt-tab-item>
       <mt-tab-item id="tab2">
         <img slot="icon" src="@/assets/images/background.png">
@@ -26,10 +18,6 @@
       <mt-tab-item id="tab3">
         <img slot="icon" src="@/assets/images/background.png">
         tab3
-      </mt-tab-item>
-      <mt-tab-item id="tab4">
-        <img slot="icon" src="@/assets/images/background.png">
-        tab4
       </mt-tab-item>
     </mt-tabbar>
   </section>

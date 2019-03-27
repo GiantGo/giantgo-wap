@@ -295,3 +295,17 @@ export function uniqueArr (arr) {
 export function isExternal (path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
+export function queryString (name, url) {
+  let queryUrl = url || document.URL
+  let reg = new RegExp('[?|&]' + name + '=([^&#/]*)', 'i')
+  if (queryUrl.indexOf('?') > -1) {
+    let search = queryUrl.substr(queryUrl.indexOf('?'))
+    let r = search.match(reg)
+    if (r != null) {
+      return decodeURIComponent(r[1])
+    }
+    return null
+  }
+  return null
+}

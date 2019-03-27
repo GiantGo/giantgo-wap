@@ -7,7 +7,6 @@ function resolve (dir) {
 
 module.exports = {
   transpileDependencies: ['element-ui'],
-
   chainWebpack: (config) => {
     config.module.rules.delete('svg')
     config.module
@@ -28,7 +27,6 @@ module.exports = {
       }])
     }
   },
-
   devServer: {
     proxy: {
       '/api': {
@@ -43,10 +41,8 @@ module.exports = {
       }
     }
   },
-
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
-      // config.output.publicPath = 'https://cdn.runighcat.com/'
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
@@ -74,6 +70,6 @@ module.exports = {
       // mutate for development...
     }
   },
-
-  lintOnSave: undefined
+  lintOnSave: undefined,
+  publicPath: './'
 }

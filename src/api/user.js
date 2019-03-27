@@ -13,7 +13,7 @@ export function signIn (username, password) {
 
 export function getMyInfo () {
   return request({
-    url: '/user',
+    url: '/weChat/user',
     method: 'GET'
   })
 }

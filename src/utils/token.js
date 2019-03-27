@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'Keman-Token'
+const TokenKey = 'GiantGo-Token'
 
 export function getToken () {
   return Cookies.get(TokenKey)
