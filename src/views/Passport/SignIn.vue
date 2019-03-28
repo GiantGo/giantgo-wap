@@ -8,10 +8,18 @@
     <div>
       <mt-button size="large" @click.native="signIn">登录</mt-button>
     </div>
+    <div>
+      openId: {{openId}}
+    </div>
+    <div>
+      nickname: {{nickname}}
+    </div>
+    <img :src="avatar"/>
   </div>
 </template>
 <script>
   import { md5 } from '@/utils/md5'
+  import { mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -34,6 +42,13 @@
       }
     },
     components: {},
+    computed: {
+      ...mapGetters([
+        'openId',
+        'nickname',
+        'avatar'
+      ])
+    },
     methods: {
       signIn () {
         this.passportForm.isSubmitting = true

@@ -39,7 +39,8 @@ module.exports = {
         ws: true,
         changeOrigin: true
       }
-    }
+    },
+    disableHostCheck: true
   },
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {

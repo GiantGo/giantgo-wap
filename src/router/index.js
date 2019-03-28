@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import { getToken, setToken } from '@/utils/token'
-import { queryString } from '@/utils'
+import { getToken } from '@/utils/token'
 
 const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const DefaultLayout = () => import('../layouts/Default/Index.vue')
@@ -68,7 +67,7 @@ router.beforeEach(function (to, from, next) {
         validateBind(store.getters.isBind, to.path, next)
       }).catch(() => {
         store.dispatch('logout')
-        window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login'
+        window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.origin + to.fullPath)
       })
     } else {
       // 判断联系人是否已绑定
@@ -76,7 +75,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     store.dispatch('logout')
-    window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login'
+    window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.origin + to.fullPath)
   }
 })
 
@@ -93,10 +92,6 @@ if (isiOS) {
   store.dispatch('jsApi', {
     url: encodeURIComponent(window.location.href.split('#')[0])
   })
-}
-
-if (queryString('token')) {
-  setToken(queryString('token'))
 }
 
 export default router

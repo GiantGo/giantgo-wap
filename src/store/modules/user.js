@@ -8,7 +8,10 @@ const state = {
   email: '',
   avatar: '',
   name: '',
+  nickname: '',
   createTime: '',
+  isBind: '',
+  openId: '',
   tokenValid: false
 }
 
@@ -16,7 +19,10 @@ const getters = {
   email: state => state.email,
   avatar: state => state.avatar,
   name: state => state.name,
+  nickname: state => state.nickname,
   createTime: state => state.createTime,
+  isBind: state => state.isBind,
+  openId: state => state.openId,
   tokenValid: state => state.tokenValid
 }
 
@@ -31,6 +37,9 @@ const actions = {
     commit('SET_AVATAR', '')
     commit('SET_NAME', '')
     commit('SET_CREATE_TIME', '')
+    commit('SET_IS_BIND', '')
+    commit('SET_OPEN_ID', '')
+    commit('SET_NICKNAME', '')
     commit('SET_TOKEN_VALID', false)
     removeToken()
   },
@@ -40,8 +49,11 @@ const actions = {
 
       commit('SET_EMAIL', myInfo.email)
       commit('SET_AVATAR', myInfo.avatar)
+      commit('SET_NICKNAME', myInfo.nickname)
       commit('SET_NAME', myInfo.name)
       commit('SET_CREATE_TIME', myInfo.createTime)
+      commit('SET_IS_BIND', !!myInfo.contactId)
+      commit('SET_OPEN_ID', myInfo.providerId)
       commit('SET_TOKEN_VALID', true)
 
       return myInfo
@@ -61,6 +73,15 @@ const mutations = {
   },
   SET_CREATE_TIME (state, createTime) {
     state.createTime = createTime
+  },
+  SET_IS_BIND (state, isBind) {
+    state.isBind = isBind
+  },
+  SET_OPEN_ID (state, openId) {
+    state.openId = openId
+  },
+  SET_NICKNAME (state, nickname) {
+    state.nickname = nickname
   },
   SET_TOKEN_VALID (state, valid) {
     state.tokenValid = valid
