@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 import { getToken } from '@/utils/token'
+import wx from 'weixin-js-sdk'
 
 const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const DefaultLayout = () => import('../layouts/Default/Index.vue')
@@ -15,7 +16,10 @@ export const routes = [
     path: '/signIn',
     name: 'signIn',
     component: SignIn,
-    hidden: true
+    meta: {
+      title: '登录',
+      desc: '登录登录登录'
+    }
   }, {
     path: '/',
     redirect: '/dashboard',
@@ -83,9 +87,32 @@ router.beforeEach(function (to, from, next) {
 router.afterEach((to, from) => {
   if (!isiOS) {
     store.dispatch('jsApi', {
-      url: encodeURIComponent(window.location.origin + to.fullPath)
+      url: encodeURIComponent(window.location.href.split('#')[0])
     })
   }
+
+  wx.ready(function () {
+    const appShareData = {
+      title: to.meta.title, // 分享标题
+      desc: to.meta.desc, // 分享描述
+      link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      imgUrl: '', // 分享图标
+      success: function () {}
+    }
+    const timeLineShareData = {
+      title: to.meta.title, // 分享标题
+      link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      imgUrl: '', // 分享图标
+      success: function () {}
+    }
+    wx.onMenuShareAppMessage(appShareData)
+    wx.onMenuShareTimeline(timeLineShareData)
+    wx.updateAppMessageShareData(appShareData)
+    wx.updateTimelineShareData(timeLineShareData)
+  })
+  wx.error(function (res) {
+    console.log(res)
+  })
 })
 
 if (isiOS) {
