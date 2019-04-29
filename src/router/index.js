@@ -62,8 +62,8 @@ const validateBind = (isBind, path, next) => {
   }
 }
 
-const goAuth = () => {
-  window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.href)
+const goAuth = (to) => {
+  window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.origin + process.env.VUE_APP_PUBLIC_PATH + to.fullPath.replace('/', ''))
 }
 
 router.beforeEach(function (to, from, next) {
@@ -76,7 +76,7 @@ router.beforeEach(function (to, from, next) {
         validateBind(store.getters.isBind, to.path, next)
       }).catch(() => {
         store.dispatch('logout')
-        goAuth()
+        goAuth(to)
       })
     } else {
       // 判断联系人是否已绑定
@@ -84,7 +84,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     store.dispatch('logout')
-    goAuth()
+    goAuth(to)
   }
 })
 
@@ -92,7 +92,8 @@ router.beforeEach(function (to, from, next) {
 router.afterEach((to, from) => {
   if (!isiOS) {
     store.dispatch('jsApi', {
-      url: encodeURIComponent(window.location.href.split('#')[0])
+      url: encodeURIComponent(window.location.origin + process.env.VUE_APP_PUBLIC_PATH + to.fullPath.replace('/', ''))
+      // url: encodeURIComponent(window.location.href.split('#')[0])
     })
   }
 
