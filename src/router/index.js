@@ -38,7 +38,8 @@ export const routes = [
 ]
 
 const router = new Router({
-  mode: 'hash',
+  mode: 'history',
+  base: process.env.VUE_APP_PUBLIC_PATH,
   linkActiveClass: 'active',
   scrollBehavior: () => ({y: 0}),
   routes: routes
@@ -61,6 +62,10 @@ const validateBind = (isBind, path, next) => {
   }
 }
 
+const goAuth = () => {
+  window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.href)
+}
+
 router.beforeEach(function (to, from, next) {
   if (getToken()) {
     // 判断当前用户是否已获取用户信息，以验证token有效性
@@ -71,7 +76,7 @@ router.beforeEach(function (to, from, next) {
         validateBind(store.getters.isBind, to.path, next)
       }).catch(() => {
         store.dispatch('logout')
-        window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.origin + to.fullPath)
+        goAuth()
       })
     } else {
       // 判断联系人是否已绑定
@@ -79,7 +84,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     store.dispatch('logout')
-    window.location.href = process.env.VUE_APP_BASE_URL + '/oAuth/login?redirectUrl=' + encodeURIComponent(window.location.origin + to.fullPath)
+    goAuth()
   }
 })
 
